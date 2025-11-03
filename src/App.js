@@ -13,10 +13,11 @@ function App() {
     const params = useMemo(() => new URLSearchParams(window.location.search), []);
     const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
 
-    const scaleParam = params.get('scale') ?? (params.get('zoom') ? Number(params.get('zoom')) / 100 : null);
+    // const scaleParam = params.get('scale') ?? (params.get('zoom') ? Number(params.get('zoom')) / 100 : null);
+    const scaleParam = params.get('scale') ?? params.get('zoom');
     const scale = useMemo(() => {
         const s = Number(scaleParam);
-        return clamp(Number.isFinite(s) && s > 0 ? s : 1, 0.5, 3);
+        return clamp(Number.isFinite(s) && s > 0 ? s : 1, 0.5, 5);
     }, [scaleParam]);
 
   const [shuffledImages, setShuffledImages] = useState([]);
