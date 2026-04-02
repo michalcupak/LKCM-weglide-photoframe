@@ -1,5 +1,7 @@
 import React, {useState, useEffect, useMemo} from 'react';
 import './App.css';
+import {IdleCursorBoundary} from "@michal.cupak/react-idle-cursor-hide";
+import "@michal.cupak/react-idle-cursor-hide/styles.css";
 
 
 /**
@@ -51,6 +53,7 @@ function App() {
   }, [shuffledImages.length]);
 
   return (
+      <IdleCursorBoundary idleMs={1500} wrapperStyle={{ minHeight: "100vh" }} initiallyHidden>
       <div className="fullscreen-background">
         {shuffledImages.map((image, index) => (
             <div key={index} className={`slide-container ${index === currentIndex ? 'active' : ''}`}>
@@ -71,6 +74,7 @@ function App() {
             </div>
         ))}
       </div>
+      </IdleCursorBoundary>
   );
 }
 
