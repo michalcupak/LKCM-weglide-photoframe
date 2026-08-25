@@ -1,70 +1,64 @@
-# Getting Started with Create React App
+# WeGlide Photoframe
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Jednoduchá fullscreen prezentace leteckých fotografií. Aplikace načte seznam snímků z JSON, náhodně je seřadí a automaticky mezi nimi přepíná. U každé fotografie zobrazuje jméno pilota a datum.
 
-## Available Scripts
+## Spuštění
 
-In the project directory, you can run:
+Požadavkem je Node.js s npm. Závislosti nainstalujete a vývojový server spustíte příkazy:
 
-### `npm start`
+```bash
+npm install
+npm start
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Aplikace bude dostupná na [http://localhost:3000](http://localhost:3000).
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Produkční sestavení vytvoříte příkazem:
 
-### `npm test`
+```bash
+npm run build
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Výsledné soubory budou v adresáři `build`.
 
-### `npm run build`
+## Zdroj fotografií
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Aplikace při spuštění načítá soubor `public/image_urls.json`. Soubor obsahuje JSON pole objektů v následujícím formátu:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```json
+[
+  {
+    "url": "https://example.com/photo.jpg",
+    "pilot": "Jméno pilota",
+    "datum": "2025-08-26"
+  }
+]
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Pořadí načtených fotografií se při každém spuštění náhodně promíchá.
 
-### `npm run eject`
+## URL parametry
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Chování prezentace lze upravit parametry v URL:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+| Parametr | Význam | Výchozí hodnota | Příklad |
+| --- | --- | --- | --- |
+| `interval` | Interval přepínání fotografií v sekundách | `30` | `?interval=15` |
+| `scale` | Násobek velikosti popisku | `1` | `?scale=1.25` |
+| `zoom` | Alternativní název parametru `scale` | `1` | `?zoom=1.5` |
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Hodnota `interval` musí být kladné číslo. Při chybějící nebo neplatné hodnotě se použije výchozí interval 30 sekund.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Parametry lze kombinovat:
 
-## Learn More
+```text
+http://localhost:3000/?interval=10&scale=1.25
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Testy
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Testy spustíte příkazem:
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```bash
+npm test -- --watchAll=false
+```
