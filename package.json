@@ -1,6 +1,6 @@
 {
   "name": "weglide-photoframe",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "homepage": "https://lkcm.cz/app/weglide_slideshow/",
   "private": true,
   "dependencies": {
