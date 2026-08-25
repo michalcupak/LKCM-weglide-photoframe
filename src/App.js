@@ -3,12 +3,15 @@ import './App.css';
 import {IdleCursorBoundary} from "@michal.cupak/react-idle-cursor-hide";
 import "@michal.cupak/react-idle-cursor-hide/styles.css";
 
+const DEFAULT_INTERVAL_SECONDS = 30;
+
 
 /**
  * App loads image_urls.json from its PUBLIC_URL and renders the photo presentation.
  * Extras:
  * - URL params:
  *   - scale / zoom: font scaling (default 1.0). e.g. ?scale=1.25 or ?zoom=120
+ *   - interval: photo switching interval in seconds (default 30). e.g. ?interval=15
  */
 function App() {
 
@@ -21,6 +24,11 @@ function App() {
         const s = Number(scaleParam);
         return clamp(Number.isFinite(s) && s > 0 ? s : 1, 0.5, 5);
     }, [scaleParam]);
+    const intervalParam = params.get('interval');
+    const intervalMs = useMemo(() => {
+        const seconds = Number(intervalParam);
+        return (Number.isFinite(seconds) && seconds > 0 ? seconds : DEFAULT_INTERVAL_SECONDS) * 1000;
+    }, [intervalParam]);
 
   const [shuffledImages, setShuffledImages] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -47,10 +55,10 @@ function App() {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % shuffledImages.length);
-    }, 10000);
+    }, intervalMs);
 
     return () => clearInterval(intervalId);
-  }, [shuffledImages.length]);
+  }, [intervalMs, shuffledImages.length]);
 
   return (
       <IdleCursorBoundary idleMs={1500} wrapperStyle={{ minHeight: "100vh" }} initiallyHidden>
